@@ -10,7 +10,7 @@ import threading
 # Color constants
 FG_COLOR = "#d37b7b"
 BG_COLOR = "#BA4949"
-TAB_COLOR = "#a44e4d"
+TAB_COLOR = "#BA4949"
 TXT_COLOR = "#ffffff"
 ENTRY_COLOR = "#ab4342"
 BTN_TEXT = "#ab504f"
@@ -33,8 +33,8 @@ class App(ctk.CTk):
         
         #style for notebook
         style = ttk.Style()
-        style.configure('TNotebook.Tab', background=TAB_COLOR, foreground="#d37b7b")
-        style.map('TNotebook.Tab', background=[('selected', BTN_COLOR)])
+        style.configure('TNotebook.Tab', background=FG_COLOR, foreground="white")
+        style.map('TNotebook.Tab', background=[('selected', TAB_COLOR)], relief=[('selected', 'flat')])
                 
         # create notebook
         self.notebook = ttk.Notebook(self.root)
