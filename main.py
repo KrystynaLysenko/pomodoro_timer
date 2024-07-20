@@ -68,7 +68,7 @@ class App(ctk.CTk):
         self.start_btn = ctk.CTkButton(self.btn_frame, text="START", text_color=BTN_TEXT, hover_color=BTN_HOVER, fg_color=BTN_COLOR, command=self.start_timer)
         self.start_btn.pack(side="left", padx=30, ipady=5, ipadx=5)
         
-        self.pause_btn = ctk.CTkButton(self.btn_frame, text="PAUSE", text_color=BTN_TEXT, hover_color=BTN_HOVER, fg_color=BTN_COLOR)
+        self.pause_btn = ctk.CTkButton(self.btn_frame, text="PAUSE", text_color=BTN_TEXT, hover_color=BTN_HOVER, fg_color=BTN_COLOR, command=self.pause_timer)
         self.pause_btn.pack(side="right", padx=30, ipady=5, ipadx=5)
 
         #task entry
@@ -92,11 +92,20 @@ class App(ctk.CTk):
         
         
         self.root.mainloop()
-        
+    
+    def reset_timer(self):
+        if self.time_label.cget('text') != "25:00":
+            self.time_label.configure(text="25:00")
+            time.sleep(1)    
         
     def start_timer(self):
+        self.reset_timer()
         self.timer_thread = threading.Thread(target=self.update_timer)
         self.timer_thread.start()
+        
+    def pause_timer(self):
+        print("Pause was pressed!")
+        pass
         
     def update_timer(self):
         time_str = self.time_label.cget('text')
@@ -108,12 +117,11 @@ class App(ctk.CTk):
             return
         time_obj = datetime.strptime(time_str, "%M:%S")
         
-        #for now time updates every 0,1 of a secound
-        time.sleep(0.1)
+        #for now time updates every secound
+        time.sleep(1)
         new_time_obj = time_obj - timedelta(minutes=1)
-        
         new_time_str = new_time_obj.strftime("%M:%S")
-        print(new_time_str)
+        
         self.time_label.configure(text=new_time_str)
         self.time_label.update_idletasks()
         self.time_label.after(60, self.update_timer())
