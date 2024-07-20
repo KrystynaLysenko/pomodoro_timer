@@ -52,9 +52,7 @@ class App(ctk.CTk):
         self.time_frame = ctk.CTkFrame(self.home_frame, fg_color=FG_COLOR, bg_color=BG_COLOR, corner_radius=20, width=300)
         self.time_frame.pack(pady=20, ipadx=40, expand=True)
                 
-        #progress bar
-        # self.progress_bar = ctk.CTkProgressBar(self.home_frame, height=20, width=400, progress_color="white")
-        # self.progress_bar.pack(pady=20)
+        #
         
         #time label
         self.time_label = ctk.CTkLabel(self.time_frame, text_color=TXT_COLOR, text="25:00", font=self.font_big)
@@ -68,7 +66,7 @@ class App(ctk.CTk):
         self.start_btn = ctk.CTkButton(self.btn_frame, text="START", text_color=BTN_TEXT, hover_color=BTN_HOVER, fg_color=BTN_COLOR, command=self.start_timer)
         self.start_btn.pack(side="left", padx=30, ipady=5, ipadx=5)
         
-        self.pause_btn = ctk.CTkButton(self.btn_frame, text="PAUSE", text_color=BTN_TEXT, hover_color=BTN_HOVER, fg_color=BTN_COLOR, command=self.pause_timer)
+        self.pause_btn = ctk.CTkButton(self.btn_frame, text="PAUSE", text_color=BTN_TEXT, hover_color=BTN_HOVER, fg_color=BTN_COLOR)
         self.pause_btn.pack(side="right", padx=30, ipady=5, ipadx=5)
 
         #task entry
@@ -90,7 +88,9 @@ class App(ctk.CTk):
         self.task_button.pack(side="right", ipady=5, pady=10, padx=10)
         
         
-        
+        #to-do tab
+  
+        #start the main loop
         self.root.mainloop()
     
     def reset_timer(self):
@@ -117,14 +117,17 @@ class App(ctk.CTk):
             return
         time_obj = datetime.strptime(time_str, "%M:%S")
         
-        #for now time updates every secound
-        time.sleep(1)
-        new_time_obj = time_obj - timedelta(minutes=1)
+        #for now time updates every 0.1 secound
+        time.sleep(0.1)
+        
+        new_time_obj = time_obj - timedelta(seconds=1)
         new_time_str = new_time_obj.strftime("%M:%S")
         
         self.time_label.configure(text=new_time_str)
         self.time_label.update_idletasks()
-        self.time_label.after(60, self.update_timer())
+        self.time_label.after(1, self.update_timer())
+        
+        
         
 
         
