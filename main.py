@@ -45,7 +45,7 @@ class App(ctk.CTk):
         self.notebook.add(self.home_frame, text="Timer")
         
         #time focused today
-        self.total_time_label = ctk.CTkLabel(self.home_frame, text_color=TXT_FADED, text='Time focused today: 0 hours 0 minutes', font=self.font_small)
+        self.total_time_label = ctk.CTkLabel(self.home_frame, text_color=TXT_FADED, text='Total time: 00:00:00' , font=self.font_small)
         self.total_time_label.pack(pady=10)
         
         #time frame
@@ -77,7 +77,7 @@ class App(ctk.CTk):
         self.task_entry.pack(side="left", pady=10)
         
         #todo
-        self.todo_frame = ctk.CTkFrame(self.notebook, fg_color=FG_COLOR, bg_color=BG_COLOR)
+        self.todo_frame = ctk.CTkFrame(self.notebook, fg_color=BG_COLOR, bg_color=BG_COLOR)
         self.notebook.add(self.todo_frame, text="TO-DOs")
         
         image = Image.open("assets/plus.png")
@@ -87,8 +87,6 @@ class App(ctk.CTk):
         self.task_button = ctk.CTkButton(self.task_frame, image=image, text="", fg_color=BG_COLOR, bg_color=BG_COLOR, hover_color=BTN_HOVER, corner_radius=6, width=25, height=25)
         self.task_button.pack(side="right", ipady=5, pady=10, padx=10)
         
-        
-        #to-do tab
   
         #start the main loop
         self.root.mainloop()
@@ -96,8 +94,8 @@ class App(ctk.CTk):
     def reset_timer(self):
         if self.time_label.cget('text') != "25:00":
             self.time_label.configure(text="25:00")
-            time.sleep(1)    
-        
+            
+            
     def start_timer(self):
         self.reset_timer()
         self.timer_thread = threading.Thread(target=self.update_timer)
@@ -108,24 +106,33 @@ class App(ctk.CTk):
         pass
         
     def update_timer(self):
-        time_str = self.time_label.cget('text')
-        if time_str == "00:00":
-            # unitialize pygame.mixed for audio
-            pygame.mixer.init()
-            pygame.mixer.music.load("assets/bell.wav")
-            pygame.mixer.music.play()
-            return
-        time_obj = datetime.strptime(time_str, "%M:%S")
+
+        while self.time_label.cget('text') != "00:00":
+            time_str = self.time_label.cget('text')
+            time_obj = datetime.strptime(time_str, "%M:%S")
+    
+            #for testing purposes time updates every 0.001 of a second
+            time.sleep(0.001)
+            
+            new_time_obj = time_obj - timedelta(seconds=1)
+            new_time_str = new_time_obj.strftime("%M:%S")
+            
+            self.time_label.configure(text=new_time_str)
+            self.time_label.update_idletasks()
+
+        # unitialize pygame.mixed for audio
+        pygame.mixer.init()
+        pygame.mixer.music.load("assets/bell.wav")
+        pygame.mixer.music.play()
         
-        #for now time updates every 0.1 secound
-        time.sleep(0.1)
-        
-        new_time_obj = time_obj - timedelta(seconds=1)
-        new_time_str = new_time_obj.strftime("%M:%S")
-        
-        self.time_label.configure(text=new_time_str)
-        self.time_label.update_idletasks()
-        self.time_label.after(1, self.update_timer())
+        #update total time
+        total_time_str = self.total_time_label.cget('text')[13:]
+        total_time_obj = datetime.strptime(total_time_str, "%H:%M:%S")
+        new_total_time_obj = total_time_obj + timedelta(minutes=25)
+        new_total_time_str = new_total_time_obj.strftime("%H:%M:%S")
+        self.total_time_label.configure(text=f"Total time: {new_total_time_str}")
+        return
+
         
         
         
