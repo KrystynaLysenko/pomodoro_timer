@@ -1,8 +1,8 @@
 ### README for Pomodoro Timer
 
-## Pomodoro Timer
+## Simple Pomodoro Timer
 
-This is a simple Pomodoro Timer app built using `customtkinter`, `tkinter`, `Pillow`, and `pygame`.
+This is a simple Pomodoro Timer app built using `customtkinter`, `tkinter`, and `pygame`.
 
 ## Screenshots
 #### Home screen
@@ -10,15 +10,14 @@ This is a simple Pomodoro Timer app built using `customtkinter`, `tkinter`, `Pil
 
 ### Features
 
-- Timer with start and pause buttons
-- Task entry field
+- Sets the time to 25 minutes (by default). You can also set it to 30 or 60 minutes.
+- Displays total time for the session
 - Plays a sound when the timer ends
 
 ### Requirements
 
 - Python 3
 - CustomTkinter
-- Pillow
 - Pygame
 
 ### Installation
@@ -31,7 +30,7 @@ This is a simple Pomodoro Timer app built using `customtkinter`, `tkinter`, `Pil
 
 2. **Install the required packages:**
    ```bash
-   pip install customtkinter pillow pygame
+   pip install customtkinter pygame
    ```
 
 ### Usage
@@ -43,8 +42,6 @@ This is a simple Pomodoro Timer app built using `customtkinter`, `tkinter`, `Pil
 
 2. **Using the Timer:**
    - Click "START" to start the timer.
-   - Click "PAUSE" to pause the timer.
-   - Enter tasks in the task entry field.
 
 ### Notes
 
